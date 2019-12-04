@@ -55,6 +55,7 @@
 			
 			function add(){
 				var $form = $("#add");
+				document.getElementById("add").reset(); 
 				var formobj = getFormData($form);
 				var sendobj = {
 					action:"addentry",
@@ -99,7 +100,20 @@
 					</div>
 					<div class="large-4 columns">
 					  <label>Instrument
-						<input type="text" name="instrument" placeholder="Flute" />
+						<select name="instrument">
+						  <option value="X">X</option>
+						  <option value="Clarinette">Clarinette</option>
+						  <option value="Cor">Cor</option>
+						  <option value="Trombone">Trombone</option>
+						  <option value="Saxophone">Saxophone</option>
+						  <option value="Piano">Piano</option>
+						  <option value="Percussions">Percussions</option>
+						  <option value="Flûte">Flûte</option>
+						  <option value="Trompette">Trompette</option>
+						  <option value="Tuba">Tuba</option>
+						  <option value="Violon">Violon</option>
+						  <option value="Guitare">Guitare</option>
+						</select>
 					  </label>
 					</div>
 					<div class="large-4 columns">
@@ -118,7 +132,7 @@
 					<div class="large-6 columns">
 					  <label>Niveau Instrument
 						<select name="niveauinstrument">
-						  <option value="0/0">0/0</option>
+						  <option value="X">X</option>
 						  <option value="I/1">I/1</option>
 						  <option value="I/2">I/2</option>
 						  <option value="I/3">I/3</option>
@@ -137,7 +151,7 @@
 					<div class="large-6 columns">
 					  <label>Niveau Solfege
 						<select name="niveausolfege">
-						  <option value="0/0">0/0</option>
+						  <option value="X">X</option>
 						  <option value="I/1">I/1</option>
 						  <option value="I/2">I/2</option>
 						  <option value="I/3">I/3</option>
