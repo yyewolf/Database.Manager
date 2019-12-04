@@ -33,6 +33,7 @@
 				if(msg.action == "updateDB"){
 					$("#result").html(msg.db);
 				}
+			  HideColumn(document.getElementById('Supprimer'))
 			};
 
 			socket.onclose = function(event) {
@@ -113,32 +114,6 @@
 				tr[i].innerHTML = tr[i].innerHTML.substring(0, tr[i].innerHTML.length - 1);
 			  }
 			}
-			
-			function Init(){
-			  var input, filter, table, tr, td, i, k, txtValue;
-			  state = false;
-			  table = document.getElementById("myTable");
-			  tr = table.getElementsByTagName("tr");
-			  for(i = 0; i < tr[0].getElementsByTagName("td").length; i++) {
-				compare = "Supprimer"
-				if(tr[0].getElementsByTagName("td")[i].innerText == compare){
-					k = i
-					break
-				}
-			  }
-			  for (i = 0; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[k];
-				if (state) {
-					td.style.display = "";
-				} else {
-					td.style.display = "none";
-				}
-				tr[i].innerHTML += 1
-				tr[i].innerHTML = tr[i].innerHTML.substring(0, tr[i].innerHTML.length - 1);
-			  }
-			}
-			
-			
 			
 			function Save(){
 				var doc = new jsPDF();
@@ -263,7 +238,7 @@
 							<input type="checkbox" checked name="Adresse" value="Adresse" onChange="HideColumn(this)" id="Adresse"><label for="Adresse">Adresse</label>
 						</div>
 						<div class="small-6 columns">
-							<input type="checkbox" name="Supprimer" value="Supprimer" onLoad="Init()" onChange="HideColumn(this)" id="Supprimer"><label for="Supprimer">Supprimer</label>
+							<input type="checkbox" name="Supprimer" value="Supprimer" onChange="HideColumn(this)" id="Supprimer"><label for="Supprimer">Supprimer</label>
 						</div>
 					</div>
 				  </div>
