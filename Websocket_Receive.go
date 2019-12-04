@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -96,9 +97,15 @@ func AddEntry_AddPage(Request Receive_Request) {
 	FilterDB_AddPage(Request)
 }
 
+//Closes the program
+func Close(Request Receive_Request) {
+	os.Exit(0)
+}
+
 func Websocket_Receive_AllFunctions() {
 	// Directly translated from the old code.
 	Websocket_Receive_Functions["fdbap"] = FilterDB_AddPage
 	Websocket_Receive_Functions["deleteentry"] = DeleteEntry_AddPage
 	Websocket_Receive_Functions["addentry"] = AddEntry_AddPage
+	Websocket_Receive_Functions["close"] = Close
 }

@@ -24,7 +24,7 @@
 			let socket = new WebSocket("ws://127.0.0.1/ws");
 
 			socket.onopen = function(e) {
-			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom DESC;"}');
+			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom ASC;"}');
 			};
 
 			socket.onmessage = function(event) {
@@ -40,7 +40,7 @@
 			};
 			
 			function deleteentry(id){
-			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom DESC;","id":"'+id+'"}');
+			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom ASC;","id":"'+id+'"}');
 			}
 			
 			function showhide() {
@@ -114,6 +114,30 @@
 			  }
 			}
 			
+			function Init(){
+			  var input, filter, table, tr, td, i, k, txtValue;
+			  state = false;
+			  table = document.getElementById("myTable");
+			  tr = table.getElementsByTagName("tr");
+			  for(i = 0; i < tr[0].getElementsByTagName("td").length; i++) {
+				compare = "Supprimer"
+				if(tr[0].getElementsByTagName("td")[i].innerText == compare){
+					k = i
+					break
+				}
+			  }
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[k];
+				if (state) {
+					td.style.display = "";
+				} else {
+					td.style.display = "none";
+				}
+				tr[i].innerHTML += 1
+				tr[i].innerHTML = tr[i].innerHTML.substring(0, tr[i].innerHTML.length - 1);
+			  }
+			}
+			
 			
 			
 			function Save(){
@@ -131,11 +155,13 @@
 				for(i = 1; i < tr.length; i++) {
 					var current = []
 					for(k = 0; k < tr[i].getElementsByTagName("td").length; k++) {
-						if(tr[0].getElementsByTagName("td")[k].style.display != "none") {
+						if(tr[0].getElementsByTagName("td")[k].style.display != "none" && tr[i].style.display != "none") {
 							current.push(tr[i].getElementsByTagName("td")[k].innerText)
 						}
 					}
-					body.push(current)
+					if(current.length != 0) {
+						body.push(current)
+					}
 				}
 				doc.autoTable(head, body, { startY: 10 });
 				doc.save('Tableau.pdf');
@@ -150,12 +176,12 @@
 				  <div class="row">
 					<div class="large-6 columns">
 					  <label>Prénom
-						<input type="text" id="1" name="prenom" onkeyup="Search(this)" placeholder="Jacques" />
+						<input type="text" id="1" name="prenom" onkeyup="Search(this)" placeholder="Prénom" />
 					  </label>
 					</div>
 					<div class="large-6 columns">
 					  <label>Nom
-						<input type="text" name="nom" onkeyup="Search(this)" placeholder="Jean" />
+						<input type="text" name="nom" onkeyup="Search(this)" placeholder="Nom" />
 					  </label>
 					</div>
 				  </div>
@@ -196,7 +222,7 @@
 				  <div class="row">
 					<div class="large-6 columns">
 					  <label>Adresse
-						<input type="text" name="adresse" onkeyup="Search(this)" placeholder="20 rue de jacques"/>
+						<input type="text" name="adresse" onkeyup="Search(this)" placeholder="20 rue de l'espérance"/>
 					  </label>
 					</div>
 				  </div>
@@ -237,7 +263,7 @@
 							<input type="checkbox" checked name="Adresse" value="Adresse" onChange="HideColumn(this)" id="Adresse"><label for="Adresse">Adresse</label>
 						</div>
 						<div class="small-6 columns">
-							<input type="checkbox" checked name="Supprimer" value="Supprimer" onChange="HideColumn(this)" id="Supprimer"><label for="Supprimer">Supprimer</label>
+							<input type="checkbox" name="Supprimer" value="Supprimer" onLoad="Init()" onChange="HideColumn(this)" id="Supprimer"><label for="Supprimer">Supprimer</label>
 						</div>
 					</div>
 				  </div>

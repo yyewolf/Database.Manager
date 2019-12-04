@@ -13,11 +13,33 @@
 		<link rel="stylesheet" type="text/css" href="b/css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="b/css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="b/css/component.css" />
+		
+		<script type="text/javascript">
+		
+			let socket = new WebSocket("ws://127.0.0.1/ws");
+
+			socket.onopen = function(e) {
+				//Nothing
+			};
+
+			socket.onmessage = function(event) {
+				//Nothing
+			};
+
+			socket.onclose = function(event) {
+				alert('Redémarrer le programme !');
+			};
+			
+			function Close(){
+			  socket.send('{"action":"close"}');
+			}
+		</script>
 	</head>
 	<body>
 		<nav class="outer-nav top horizontal">
 			<a href="add" class="fa fa-table">Ajouter / Supprimer quelqu'un</a>
 			<a href="tab" class="fas fa-pencil-alt">Créer un tableau</a>
+			<a href="#" onClick="Close()" class="fa fa-times">Eteindre le programme</a>
 		</nav>
 	</body>
 </html> 

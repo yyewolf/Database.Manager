@@ -23,7 +23,7 @@
 			let socket = new WebSocket("ws://127.0.0.1/ws");
 
 			socket.onopen = function(e) {
-			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom DESC;"}');
+			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom ASC;"}');
 			};
 
 			socket.onmessage = function(event) {
@@ -39,7 +39,7 @@
 			};
 			
 			function deleteentry(id){
-			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom DESC;","id":"'+id+'"}');
+			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom ASC;","id":"'+id+'"}');
 			}
 			
 			function getFormData($form){
@@ -58,7 +58,7 @@
 				var formobj = getFormData($form);
 				var sendobj = {
 					action:"addentry",
-					req:"SELECT * FROM DB",
+					req:"SELECT * FROM DB ORDER BY prenom ASC;",
 					data:formobj
 				}
 				socket.send(JSON.stringify(sendobj));
@@ -82,12 +82,12 @@
 				  <div class="row">
 					<div class="large-6 columns">
 					  <label>Prénom
-						<input type="text" name="prenom" placeholder="Jacques" />
+						<input type="text" name="prenom" placeholder="Prénom" />
 					  </label>
 					</div>
 					<div class="large-6 columns">
 					  <label>Nom
-						<input type="text" name="nom" placeholder="Jean" />
+						<input type="text" name="nom" placeholder="Nom" />
 					  </label>
 					</div>
 				  </div>
@@ -157,7 +157,7 @@
 				  <div class="row">
 					<div class="large-6 columns">
 					  <label>Adresse
-						<input type="text" name="adresse" placeholder="20 rue de jacques"/>
+						<input type="text" name="adresse" placeholder="20 rue de l'espérance"/>
 					  </label>
 					</div>
 				  </div>
