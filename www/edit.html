@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Tableau</title>
+		<meta name="description" content="Perspective Page View Navigation: Transforms the page in 3D to reveal a menu" />
+		<meta name="keywords" content="3d page, menu, navigation, mobile, perspective, css transform, web development, web design" />
+		<meta name="author" content="Yewolf" />
+		<link rel="shortcut icon" href="../b/favicon.ico">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+		<link href="b/css/foundation.css" rel="stylesheet">
+		<script type="text/javascript" src="b/js/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" ></script>
+		<script src="b/js/jspdf.plugin.autotable.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="b/css/demo.css" />
+		<style>
+			html { height: 100%; }
+			body {height: 100%; }
+		</style>
+		<script type="text/javascript">
+		
+			let socket = new WebSocket("ws://127.0.0.1/ws");
+
+			socket.onopen = function(e) {
+			  socket.send('{"action":"editable","req":"SELECT * FROM DB ORDER BY prenom ASC;"}');
+			};
+
+			socket.onmessage = function(event) {
+				var msg = JSON.parse(event.data);
+				console.log(event.data);
+				if(msg.action == "updateDB"){
+					$("#result").html(msg.db);
+				}
+			};
+
+			socket.onclose = function(event) {
+				alert('Redémarrer le programme !');
+			};
+			
+			function showhide() {
+			  var x = document.getElementById("add");
+			  if (x.style.display === "none") {
+				x.style.display = "block";
+			  } else {
+				x.style.display = "none";
+			  }
+			} 
+			
+			function Search(elem) {
+			  var input, filter, table, tr, td, i, k, txtValue;
+			  input = elem;
+			  filter = elem.value.toUpperCase();
+			  console.log(filter)
+			  table = document.getElementById("myTable");
+			  tr = table.getElementsByTagName("tr");
+			  for(i = 0; i < tr[0].getElementsByTagName("td").length; i++) {
+			    compare = elem.parentNode.innerHTML.split("\n")[0]
+				if(tr[0].getElementsByTagName("td")[i].innerText == compare){
+					k = i
+					break
+				}
+			  }
+			  for (i = 1; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[k];
+				if (td) {
+				  txtValue = td.textContent || td.innerText;
+				  txtValue = txtValue.toUpperCase();
+				  if (txtValue.indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}
+			  }
+			}
+		</script>
+	</head>
+	<body>
+		<div class="grid-x grid-padding-x">
+			<div class="cell small-5 large-centered align-self-middle"> 
+				<button onclick="showhide()">Filtre</button>
+				<form id="add" style="display:none;">
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Prénom
+						<input type="text" id="1" name="prenom" onkeyup="Search(this)" placeholder="Prénom" />
+					  </label>
+					</div>
+					<div class="large-6 columns">
+					  <label>Nom
+						<input type="text" name="nom" onkeyup="Search(this)" placeholder="Nom" />
+					  </label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-4 columns">
+					  <label>Téléphone
+						<input type="text" name="tel" onkeyup="Search(this)" placeholder="06********" />
+					  </label>
+					</div>
+					<div class="large-4 columns">
+					  <label>Instrument
+						<input type="text" name="instrument" onkeyup="Search(this)" placeholder="Flute" />
+					  </label>
+					</div>
+					<div class="large-4 columns">
+						<label>Mail</label>
+						 <input type="text" name="mail" onkeyup="Search(this)" placeholder="exemple@gmail.com" />
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-12 columns centered">
+					  <label>Solfege</label>
+						<input type="text" name="instrument" onkeyup="Search(this)" placeholder="Oui" />
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Niveau Instrument
+						<input type="text" name="instrument" onkeyup="Search(this)" placeholder="I/1" />
+					  </label>
+					</div>
+					<div class="large-6 columns">
+					  <label>Niveau Solfege
+						<input type="text" name="instrument" onkeyup="Search(this)" placeholder="I/1" />
+					  </label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Adresse
+						<input type="text" name="adresse" onkeyup="Search(this)" placeholder="20 rue de l'espérance"/>
+					  </label>
+					</div>
+				  </div>
+				</form>
+			</div>
+		</div>
+		<div class="grid-x grid-padding-x">
+			<div class="cell large-5 large-centered align-self-middle"> 
+				<button onclick="showhidetwo()">Colonnes Affichées</button>
+				<form id="columns" style="display:none;">
+				  <div class="row">
+					<div class="small-8 columns">
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Nom" value="Nom" onChange="HideColumn(this)" id="Nom"><label for="Nom">Nom</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Prénom" value="Prénom" onChange="HideColumn(this)" id="Prénom"><label for="Prénom">Prénom</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Téléphone" value="Téléphone" onChange="HideColumn(this)" id="Téléphone"><label for="Téléphone">Téléphone</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Instrument" value="Instrument" onChange="HideColumn(this)" id="Instrument"><label for="Instrument">Instrument</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Niveau Instrument" value="Niveau Instrument" onChange="HideColumn(this)" id="Niveau Instrument"><label for="Niveau Instrument">Niveau Instrument</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Solfege" value="Solfege" onChange="HideColumn(this)" id="Solfege"><label for="Solfege">Solfege</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Niveau Solfege" value="Niveau Solfege" onChange="HideColumn(this)" id="Niveau Solfege"><label for="Niveau Solfege">Niveau Solfege</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Mail" value="Mail" onChange="HideColumn(this)" id="Mail"><label for="Mail">Mail</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" checked name="Adresse" value="Adresse" onChange="HideColumn(this)" id="Adresse"><label for="Adresse">Adresse</label>
+						</div>
+						<div class="small-6 columns">
+							<input type="checkbox" name="Supprimer" value="Supprimer" onChange="HideColumn(this)" id="Supprimer"><label for="Supprimer">Supprimer</label>
+						</div>
+					</div>
+				  </div>
+				</form>
+			</div>
+		</div>
+		<div class="grid-x grid-padding-x">
+			<div class="cell large-5 large-centered align-self-middle"> 
+				<button onclick="Save()">Télécharger le tableau</button>
+			</div>
+		</div>
+		
+		<br />
+		<br />
+		<br />
+		
+		<div id="tableau" class="grid-x grid-padding-x">
+			<div class="cell large-12 large-centered align-self-middle"> 
+				<div id="result">
+				
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
