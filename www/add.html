@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Ajouter</title>
+		<meta name="description" content="Perspective Page View Navigation: Transforms the page in 3D to reveal a menu" />
+		<meta name="keywords" content="3d page, menu, navigation, mobile, perspective, css transform, web development, web design" />
+		<meta name="author" content="Yewolf" />
+		<link rel="shortcut icon" href="../b/favicon.ico">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+		<link href="b/css/foundation.css" rel="stylesheet">
+		<script type="text/javascript" src="b/js/jquery.js"></script>
+		<script src="b/js/jspdf.js" ></script>
+		<link rel="stylesheet" type="text/css" href="b/css/demo.css" />
+		<style>
+			html { height: 100%; }
+			body {height: 100%; }
+		</style>
+		<script type="text/javascript">
+		
+			let socket = new WebSocket("ws://127.0.0.1/ws");
+
+			socket.onopen = function(e) {
+			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom DESC;"}');
+			};
+
+			socket.onmessage = function(event) {
+				var msg = JSON.parse(event.data);
+				console.log(event.data);
+				if(msg.action == "updateDB"){
+					$("#result").html(msg.db);
+				}
+			};
+
+			socket.onclose = function(event) {
+				alert('Redémarrer le programme !');
+			};
+			
+			function deleteentry(id){
+			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom DESC;","id":"'+id+'"}');
+			}
+			
+			function getFormData($form){
+				var unindexed_array = $form.serializeArray();
+				var indexed_array = {};
+
+				$.map(unindexed_array, function(n, i){
+					indexed_array[n['name']] = n['value'];
+				});
+
+				return indexed_array;
+			}
+			
+			function add(){
+				var $form = $("#add");
+				var formobj = getFormData($form);
+				var sendobj = {
+					action:"addentry",
+					req:"SELECT * FROM DB",
+					data:formobj
+				}
+				socket.send(JSON.stringify(sendobj));
+			}
+			
+			function showhide() {
+			  var x = document.getElementById("add");
+			  if (x.style.display === "none") {
+				x.style.display = "block";
+			  } else {
+				x.style.display = "none";
+			  }
+			} 
+		</script>
+	</head>
+	<body>
+		<div class="grid-x grid-padding-x">
+			<div class="cell small-6 large-centered align-self-middle"> 
+				<button onclick="showhide()">Ajouter Quelqu'un</button>
+				<form id="add" style="display:none;">
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Prénom
+						<input type="text" name="prenom" placeholder="Jacques" />
+					  </label>
+					</div>
+					<div class="large-6 columns">
+					  <label>Nom
+						<input type="text" name="nom" placeholder="Jean" />
+					  </label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-4 columns">
+					  <label>Téléphone
+						<input type="text" name="tel" placeholder="06********" />
+					  </label>
+					</div>
+					<div class="large-4 columns">
+					  <label>Instrument
+						<input type="text" name="instrument" placeholder="Flute" />
+					  </label>
+					</div>
+					<div class="large-4 columns">
+						<label>Mail</label>
+						 <input type="text" name="mail" placeholder="exemple@gmail.com" />
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-12 columns centered">
+					  <label>Solfege</label>
+					  <input type="radio" name="solfegecheck" value="Oui" id="solfege"><label for="Oui">Oui</label>
+					  <input type="radio" name="solfegecheck" value="Non" id="solfege"><label for="Non">Non</label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Niveau Instrument
+						<select name="niveauinstrument">
+						  <option value="0/0">0/0</option>
+						  <option value="I/1">I/1</option>
+						  <option value="I/2">I/2</option>
+						  <option value="I/3">I/3</option>
+						  <option value="I/4">I/4</option>
+						  <option value="II/1">II/1</option>
+						  <option value="II/2">II/2</option>
+						  <option value="II/3">II/3</option>
+						  <option value="II/4">II/4</option>
+						  <option value="III/1">III/1</option>
+						  <option value="III/2">III/2</option>
+						  <option value="III/3">III/3</option>
+						  <option value="III/4">III/4</option>
+						</select>
+					  </label>
+					</div>
+					<div class="large-6 columns">
+					  <label>Niveau Solfege
+						<select name="niveausolfege">
+						  <option value="0/0">0/0</option>
+						  <option value="I/1">I/1</option>
+						  <option value="I/2">I/2</option>
+						  <option value="I/3">I/3</option>
+						  <option value="I/4">I/4</option>
+						  <option value="II/1">II/1</option>
+						  <option value="II/2">II/2</option>
+						  <option value="II/3">II/3</option>
+						  <option value="II/4">II/4</option>
+						  <option value="III/1">III/1</option>
+						  <option value="III/2">III/2</option>
+						  <option value="III/3">III/3</option>
+						  <option value="III/4">III/4</option>
+						</select>
+					  </label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-6 columns">
+					  <label>Adresse
+						<input type="text" name="adresse" placeholder="20 rue de jacques"/>
+					  </label>
+					</div>
+				  </div>
+				  <div class="row">
+					<div class="large-12 columns centered">
+						<input onClick="add();" class="success button" style="display:block; margin:auto;" value="Ajouter"/>
+					</div>
+				  </div>
+				</form>
+			</div>
+		</div>
+		
+		<br />
+		<br />
+		<br />
+		
+		<div id="tableau" class="grid-x grid-padding-x">
+			<div class="cell large-12 large-centered align-self-middle"> 
+				<div id="result">
+				
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
