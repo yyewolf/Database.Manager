@@ -39,15 +39,15 @@ func FilterDB_AddPage(Request Receive_Request) {
 			solfege = "Non"
 		}
 		html += `<tr class="row100 body">
-		<td class="cell100"><p>` + r.Nom + `</p></td>
-		<td class="cell100"><p>` + r.Prenom + `</p></td>
-		<td class="cell100"><p>` + r.Telephone + `</p></td>
-		<td class="cell100"><p>` + r.Instrument + `</p></td>
-		<td class="cell100"><p>` + r.Niveauinstrument + `</p></td>
-		<td class="cell100"><p>` + solfege + `</p></td>
-		<td class="cell100"><p>` + r.Niveausolfege + `</p></td>
-		<td class="cell100"><p>` + r.Email + `</p></td>
-		<td class="cell100"><p>` + r.Adresse + `</p></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','nom',this.value)" type="text" value="` + r.Nom + `"</div></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','prenom',this.value)" type="text" value="` + r.Prenom + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','telephone',this.value)" type="text" value="` + r.Telephone + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','instrument',this.value)" type="text" value="` + r.Instrument + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','niveauinstrument',this.value)" type="text" value="` + r.Niveauinstrument + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','solfege',this.value)" type="text" value="` + solfege + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','niveausolfege',this.value)" type="text" value="` + r.Niveausolfege + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','email',this.value)" type="text" value="` + r.Email + `"/></td>
+		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','adresse',this.value)" type="text" value="` + r.Adresse + `"/></td>
 		<td class="cell100"><p> <button type="button" onClick="deleteentry('` + strconv.Itoa(r.ID) + `')" class="alert button">Retirer</button> </p></td>
 		</tr>`
 	}
@@ -97,6 +97,21 @@ func AddEntry_AddPage(Request Receive_Request) {
 	FilterDB_AddPage(Request)
 }
 
+//Add an entry from the DB
+func EditEntry_AddPage(Request Receive_Request) {
+	if Request.NewData == "Oui" {
+		Request.NewData = "1"
+	} else if Request.NewData == "Non" {
+		Request.NewData = "0"
+	}
+	statement, err := database.Prepare(`UPDATE DB SET ` + Request.Column + `="` + Request.NewData + `" WHERE id=` + Request.ID + `;`)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	statement.Exec()
+}
+
 //Closes the program
 func Close(Request Receive_Request) {
 	os.Exit(0)
@@ -107,5 +122,6 @@ func Websocket_Receive_AllFunctions() {
 	Websocket_Receive_Functions["fdbap"] = FilterDB_AddPage
 	Websocket_Receive_Functions["deleteentry"] = DeleteEntry_AddPage
 	Websocket_Receive_Functions["addentry"] = AddEntry_AddPage
+	Websocket_Receive_Functions["change"] = EditEntry_AddPage
 	Websocket_Receive_Functions["close"] = Close
 }

@@ -39,6 +39,10 @@ type Receive_Request struct {
 
 	//When a user adds to DB
 	Add Column_Type `json:"data"`
+
+	//When a user edits a DB Column
+	Column  string `json:"column"`
+	NewData string `json:"newdata"`
 }
 
 func Websocket_Broadcast(msg string) {

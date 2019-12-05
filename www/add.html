@@ -53,9 +53,12 @@
 				return indexed_array;
 			}
 			
+			function Change(id,column,newdata) {
+			  socket.send('{"action":"change","id":"'+id+'","column":"'+column+'","newdata":"'+newdata+'"}');
+			}
+			
 			function add(){
 				var $form = $("#add");
-				document.getElementById("add").reset(); 
 				var formobj = getFormData($form);
 				var sendobj = {
 					action:"addentry",
@@ -63,6 +66,7 @@
 					data:formobj
 				}
 				socket.send(JSON.stringify(sendobj));
+				document.getElementById("add").reset(); 
 			}
 			
 			function showhide() {
@@ -181,6 +185,7 @@
 					</div>
 				  </div>
 				</form>
+				<button onclick="">Valider</button>
 			</div>
 		</div>
 		
