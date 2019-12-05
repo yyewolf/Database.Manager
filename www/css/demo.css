@@ -68,6 +68,14 @@ a:hover, a:focus {
 	color: #aca89a;
 }
 
+.kawabunga {
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-left:-175px; 
+	margin-top:-140px;
+}
+
 /* To Navigation Style */
 .codrops-top {
 	width: 100%;
