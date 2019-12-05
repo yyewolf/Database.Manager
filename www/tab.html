@@ -33,7 +33,13 @@
 				if(msg.action == "updateDB"){
 					$("#result").html(msg.db);
 				}
-			  HideColumn(document.getElementById('Supprimer'))
+				HideColumn(document.getElementById('Supprimer'))
+				var elements = document.getElementsByTagName("input");
+				for(i = 0; i < elements.length; i++){
+					if (elements[i].id == 'todisable') {
+						elements[i].disabled = true
+					}
+				}
 			};
 
 			socket.onclose = function(event) {
@@ -62,10 +68,6 @@
 			  }
 			} 
 			
-			function Change(id,column,newdata) {
-			  socket.send('{"action":"change","id":"'+id+'","column":"'+column+'","newdata":"'+newdata+'"}');
-			}
-			
 			function Search(elem) {
 			  var input, filter, table, tr, td, i, k, txtValue;
 			  input = elem;
@@ -75,6 +77,8 @@
 			  tr = table.getElementsByTagName("tr");
 			  for(i = 0; i < tr[0].getElementsByTagName("td").length; i++) {
 			    compare = elem.parentNode.innerHTML.split("\n")[0]
+				console.log(compare);
+				console.log(tr[0].getElementsByTagName("td")[i].innerText);
 				if(tr[0].getElementsByTagName("td")[i].innerText == compare){
 					k = i
 					break
@@ -83,8 +87,9 @@
 			  for (i = 1; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[k];
 				if (td) {
-				  txtValue = td.textContent || td.innerText;
+				  txtValue = td.getElementsByTagName('input')[0].value;
 				  txtValue = txtValue.toUpperCase();
+				  console.log(txtValue);
 				  if (txtValue.indexOf(filter) > -1) {
 					tr[i].style.display = "";
 				  } else {
@@ -135,7 +140,7 @@
 					var current = []
 					for(k = 0; k < tr[i].getElementsByTagName("td").length; k++) {
 						if(tr[0].getElementsByTagName("td")[k].style.display != "none" && tr[i].style.display != "none") {
-							current.push(tr[i].getElementsByTagName("td")[k].innerText)
+							current.push(tr[i].getElementsByTagName("td")[k].getElementsByTagName('input')[0].value)
 						}
 					}
 					if(current.length != 0) {
@@ -176,14 +181,16 @@
 					  </label>
 					</div>
 					<div class="large-4 columns">
-						<label>Mail</label>
+						<label>Mail
 						 <input type="text" name="mail" onkeyup="Search(this)" placeholder="exemple@gmail.com" />
+						</label>
 					</div>
 				  </div>
 				  <div class="row">
 					<div class="large-12 columns centered">
-					  <label>Solfege</label>
+					  <label>Solfege
 						<input type="text" name="instrument" onkeyup="Search(this)" placeholder="Oui" />
+					   </label>
 					</div>
 				  </div>
 				  <div class="row">

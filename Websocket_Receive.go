@@ -39,15 +39,15 @@ func FilterDB_AddPage(Request Receive_Request) {
 			solfege = "Non"
 		}
 		html += `<tr class="row100 body">
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','nom',this.value)" type="text" value="` + r.Nom + `"</div></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','prenom',this.value)" type="text" value="` + r.Prenom + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','telephone',this.value)" type="text" value="` + r.Telephone + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','instrument',this.value)" type="text" value="` + r.Instrument + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','niveauinstrument',this.value)" type="text" value="` + r.Niveauinstrument + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','solfege',this.value)" type="text" value="` + solfege + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','niveausolfege',this.value)" type="text" value="` + r.Niveausolfege + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','email',this.value)" type="text" value="` + r.Email + `"/></td>
-		<td class="cell100"><input onChange="Change('` + strconv.Itoa(r.ID) + `','adresse',this.value)" type="text" value="` + r.Adresse + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','nom',this.value)" type="text" value="` + r.Nom + `"</div></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','prenom',this.value)" type="text" value="` + r.Prenom + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','telephone',this.value)" type="text" value="` + r.Telephone + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','instrument',this.value)" type="text" value="` + r.Instrument + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','niveauinstrument',this.value)" type="text" value="` + r.Niveauinstrument + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','solfege',this.value)" type="text" value="` + solfege + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','niveausolfege',this.value)" type="text" value="` + r.Niveausolfege + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','email',this.value)" type="text" value="` + r.Email + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(r.ID) + `','adresse',this.value)" type="text" value="` + r.Adresse + `"/></td>
 		<td class="cell100"><p> <button type="button" onClick="deleteentry('` + strconv.Itoa(r.ID) + `')" class="alert button">Retirer</button> </p></td>
 		</tr>`
 	}
