@@ -23,7 +23,7 @@
 			let socket = new WebSocket("ws://127.0.0.1/ws");
 
 			socket.onopen = function(e) {
-			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY prenom ASC;"}');
+			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY eleve ASC;"}');
 			};
 
 			socket.onmessage = function(event) {
@@ -39,7 +39,7 @@
 			};
 			
 			function deleteentry(id){
-			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY prenom ASC;","id":"'+id+'"}');
+			  socket.send('{"action":"deleteentry","req":"SELECT * FROM DB ORDER BY eleve ASC;","id":"'+id+'"}');
 			}
 			
 			function getFormData($form){
@@ -62,7 +62,7 @@
 				var formobj = getFormData($form);
 				var sendobj = {
 					action:"addentry",
-					req:"SELECT * FROM DB ORDER BY prenom ASC;",
+					req:"SELECT * FROM DB ORDER BY eleve ASC;",
 					data:formobj
 				}
 				socket.send(JSON.stringify(sendobj));
@@ -86,13 +86,13 @@
 				<form id="add" style="display:none;">
 				  <div class="row">
 					<div class="large-6 columns">
-					  <label>Prénom
-						<input type="text" name="prenom" placeholder="Prénom" />
+					  <label>Éleve
+						<input type="text" name="eleve" placeholder="Prénom NOM" />
 					  </label>
 					</div>
 					<div class="large-6 columns">
-					  <label>Nom
-						<input type="text" name="nom" placeholder="Nom" />
+					  <label>Responsable (légal)
+						<input type="text" name="responsable" placeholder="Responsable (légal)" />
 					  </label>
 					</div>
 				  </div>
@@ -117,6 +117,7 @@
 						  <option value="Tuba">Tuba
 						  <option value="Violon">Violon
 						  <option value="Guitare">Guitare
+						  <option value="Éveil">Éveil
 						</select>
 					  </label>
 					</div>
@@ -126,14 +127,33 @@
 					</div>
 				  </div>
 				  <div class="row">
-					<div class="large-12 columns centered">
-					  <label>Solfege</label>
-					  <input type="radio" name="solfegecheck" value="Oui" id="solfege"><label for="Oui">Oui</label>
-					  <input type="radio" name="solfegecheck" value="Non" id="solfege"><label for="Non">Non</label>
+					<div class="large-4 columns centered">
+					  <label>Solfege
+						<select name="solfege">
+						  <option value="Oui">Oui
+						  <option value="Non">Non
+						</select>
+					  </label>
+					</div>
+					<div class="large-4 columns centered">
+					  <label>Location
+						<select name="location">
+						  <option value="Oui">Oui
+						  <option value="Non">Non
+						</select>
+					  </label>
+					</div>
+					<div class="large-4 columns centered">
+					  <label>Harmonie
+						<select name="harmonie">
+						  <option value="Oui">Oui
+						  <option value="Non">Non
+						</select>
+					  </label>
 					</div>
 				  </div>
 				  <div class="row">
-					<div class="large-6 columns">
+					<div class="large-4 columns">
 					  <label>Niveau Instrument
 						<select name="niveauinstrument">
 						  <option value="X">X
@@ -152,7 +172,7 @@
 						</select>
 					  </label>
 					</div>
-					<div class="large-6 columns">
+					<div class="large-4 columns">
 					  <label>Niveau Solfege
 						<select name="niveausolfege">
 						  <option value="X">X
@@ -168,6 +188,17 @@
 						  <option value="III/2">III/2
 						  <option value="III/3">III/3
 						  <option value="III/4">III/4
+						</select>
+					  </label>
+					</div>
+					<div class="large-4 columns">
+					  <label>École
+						<select name="ecole">
+						  <option value="Hesdin">Hesdin
+						  <option value="Blangy">Blangy
+						  <option value="Campagne">Campagne
+						  <option value="Fillièvre">Fillièvre
+						  <option value="Maresquel">Maresquel
 						</select>
 					  </label>
 					</div>

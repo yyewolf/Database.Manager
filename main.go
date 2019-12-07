@@ -66,13 +66,16 @@ func DBSetup() {
 	statement, err := database.Prepare(`CREATE TABLE IF NOT EXISTS DB
 	(
 	    id INTEGER PRIMARY KEY AUTOINCREMENT,
-	    nom TEXT NOT NULL,
-	    prenom TEXT NOT NULL,
+	    eleve TEXT NOT NULL,
+	    responsable TEXT NOT NULL,
 	    telephone TEXT NOT NULL,
+	    ecole TEXT NOT NULL,
 			instrument TEXT NOT NULL,
 			niveauinstrument TEXT NOT NULL,
-			solfege BOOLEAN NOT NULL,
+			solfege TEXT NOT NULL,
 			niveausolfege TEXT NOT NULL,
+			location TEXT NOT NULL,
+			harmonie TEXT NOT NULL,
 	    email TEXT NOT NULL,
 	    adresse TEXT NOT NULL
 	);`)

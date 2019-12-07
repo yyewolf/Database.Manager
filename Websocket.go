@@ -13,18 +13,18 @@ type Send_Request struct {
 
 type Column_Type struct {
 	ID               int    `json:"id"`
-	Nom              string `json:"nom"`
-	Prenom           string `json:"prenom"`
+	Eleve            string `json:"eleve"`
+	Responsable      string `json:"responsable"`
 	Telephone        string `json:"tel"`
+	Ecole            string `json:"ecole"`
 	Instrument       string `json:"instrument"`
 	Niveauinstrument string `json:"niveauinstrument"`
-	Solfege          bool   `json:"solfege"`
+	Solfege          string `json:"solfege"`
 	Niveausolfege    string `json:"niveausolfege"`
+	Location         string `json:"location"`
+	Harmonie         string `json:"harmonie"`
 	Email            string `json:"mail"`
 	Adresse          string `json:"adresse"`
-
-	//Specific to add protocol :
-	SolfegeCheck string `json:"solfegecheck"`
 }
 
 type Receive_Request struct {
