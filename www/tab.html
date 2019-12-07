@@ -115,7 +115,7 @@
 			  for (i = 1; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[k];
 				if (td) {
-				  txtValue = td.getElementsByTagName('input')[0].value;
+				  txtValue = td.innerHTML;
 				  txtValue = txtValue.toUpperCase();
 				  if(compare.includes('Niveau')) {
 					  if (filter == txtValue && ["I/1","I/2","I/3","I/4","II/1","II/2", "II/3","II/4", "III/1","III/2","III/3","III/4"].indexOf(filter) > -1) {
@@ -164,11 +164,37 @@
 			
 			function Save(){
 				//Export2Doc("result", "tableau")
-				var contentDocument = document.getElementById('result')
-				  var content = '<!DOCTYPE html>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' + contentDocument.innerHTML;
-				  var orientation = "Portrait";
-				  var converted = htmlDocx.asBlob(content, {orientation: orientation});
-				  saveAs(converted, 'test.docx');
+				var html = ""
+				table = document.getElementById("myTable");
+				tr = table.getElementsByTagName("tr");
+				html += "<table><thead><tr>"
+				for(i = 0; i < tr[0].getElementsByTagName("td").length; i++) {
+					if(tr[0].getElementsByTagName("td")[i].style.display != "none") {
+						html += "<td>" + tr[0].getElementsByTagName("td")[i].innerText + "</td>"
+					}
+				}
+				
+				html += "</tr></thead>"
+				
+				for(i = 1; i < tr.length; i++) {
+					var current = []
+					for(k = 0; k < tr[i].getElementsByTagName("td").length; k++) {
+						if(tr[0].getElementsByTagName("td")[k].style.display != "none" && tr[i].style.display != "none") {
+							current.push(tr[i].getElementsByTagName("td")[k].innerHTML)
+						}
+					}
+					html += "<tr>"
+					for(k = 0; k < current.length; k++) {
+						html += "<td>" + current[k] + "</td>"
+					}
+					html += "</tr>"
+				}
+				html += "</table>"
+				
+				var content = '<!DOCTYPE html>\n<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' + html;
+				var orientation = "Portrait";
+				var converted = htmlDocx.asBlob(content, {orientation: orientation});
+				saveAs(converted, 'Tableau.docx');
 			}
 		</script>
 	</head>
