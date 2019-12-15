@@ -12,7 +12,8 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 		<link href="b/css/foundation.css" rel="stylesheet">
 		<script type="text/javascript" src="b/js/jquery.js"></script>
-		<script src="b/js/jspdf.js" ></script>
+		<link rel="stylesheet" href="./b/css/clusterize.css">
+		<script src="./b/js/clusterize.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="b/css/demo.css" />
 		<style>
 			html { height: 100%; }
@@ -25,12 +26,29 @@
 			socket.onopen = function(e) {
 			  socket.send('{"action":"fdbap","req":"SELECT * FROM DB ORDER BY eleve ASC;"}');
 			};
-
+			cluster = null
 			socket.onmessage = function(event) {
 				var msg = JSON.parse(event.data);
 				console.log(event.data);
 				if(msg.action == "updateDB"){
-					$("#result").html(msg.db);
+					//$("#result").html(msg.db);
+					
+					msg.db = msg.db.replace("</table>","")
+					$("#myTable").find('tbody').attr("id","contentArea");
+					$("#myTable").find('tbody').attr("class","clusterize-content");
+					var data = msg.db.split("<tr")
+					for (var i = 0; i < data.length; i++) {
+						data[i] = "<tr" + data[i] 
+					}
+					data.splice(0,2)
+					cluster = new Clusterize({
+					  rows: data,
+					  scrollId: 'result',
+					  contentId: 'contentArea'
+					});
+				}
+				if(msg.action == "smallupdateDB"){
+					cluster.append([msg.db]);
 				}
 			};
 
@@ -226,8 +244,28 @@
 		
 		<div id="tableau" class="grid-x grid-padding-x">
 			<div class="cell large-12 large-centered align-self-middle"> 
-				<div id="result">
-				
+				<div id="result" class="clusterize-scroll">
+					<table class="hover" id="myTable">
+						<thead>
+							<tr class="row100 body thead">
+								<td class="cell100"><p>Éleve</p></td>
+								<td class="cell100"><p>Responsable (légal)</p></td>
+								<td class="cell100"><p>Téléphone</p></td>
+								<td class="cell100"><p>École</p></td>
+								<td class="cell100"><p>Instrument</p></td>
+								<td class="cell100"><p>Niveau Instrument</p></td>
+								<td class="cell100"><p>Solfege</p></td>
+								<td class="cell100"><p>Niveau Solfege</p></td>
+								<td class="cell100"><p>Location</p></td>
+								<td class="cell100"><p>Harmonie</p></td>
+								<td class="cell100"><p>Mail</p></td>
+								<td class="cell100"><p>Adresse</p></td>
+								<td class="cell100"><p>Supprimer</p></td>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

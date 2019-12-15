@@ -156,7 +156,23 @@ func AddEntry_AddPage(Request Receive_Request) {
 	}
 	statement.Exec()
 	//Send the DB over
-	FilterDB_AddPage(Request)
+	
+	html := `<tr class="row100 body">
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','eleve',this.value)" type="text" value="` + Request.Add.Eleve + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','responsable',this.value)" type="text" value="` + Request.Add.Responsable + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','telephone',this.value)" type="text" value="` + Request.Add.Telephone + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','ecole',this.value)" type="text" value="` + Request.Add.Ecole + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','instrument',this.value)" type="text" value="` + Request.Add.Instrument + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','niveauinstrument',this.value)" type="text" value="` + Request.Add.Niveauinstrument + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','solfege',this.value)" type="text" value="` + Request.Add.Solfege + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','niveausolfege',this.value)" type="text" value="` + Request.Add.Niveausolfege + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','location',this.value)" type="text" value="` + Request.Add.Location + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','harmonie',this.value)" type="text" value="` + Request.Add.Harmonie + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','email',this.value)" type="text" value="` + Request.Add.Email + `"/></td>
+		<td class="cell100"><input id="todisable" onChange="Change('` + strconv.Itoa(Request.Add.ID) + `','adresse',this.value)" type="text" value="` + Request.Add.Adresse + `"/></td>
+		<td class="cell100"><p> <button type="button" onClick="deleteentry('` + strconv.Itoa(Request.Add.ID) + `')" class="alert button">Retirer</button> </p></td>
+		</tr>`
+	SendSmallDB(html)
 }
 
 //Add an entry from the DB

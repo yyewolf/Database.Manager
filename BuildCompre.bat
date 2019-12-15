@@ -5,6 +5,7 @@ packr
 go generate
 go build -ldflags="-s -w" -ldflags -H=windowsgui
 packr clean
-del /f LoupGarouCompre.exe
-D:\upx\upx.exe -9 -oLoupGarouCompre.exe "%~dp0Loup.Garou.exe"
+D:\upx\upx.exe -9 -oDatabase.ManagerC.exe "%~dp0Database.Manager.exe"
+del /f Database.Manager.exe
+ren Database.ManagerC.exe Database.Manager.exe
 PAUSE
